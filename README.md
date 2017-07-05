@@ -1,4 +1,4 @@
-#TabLayout 的使用  
+# TabLayout 的使用  
 首先需要在 build.gradle 中添加依赖才可以：  
 ```XML
 compile 'com.android.support:design:25.3.1'
@@ -16,12 +16,13 @@ tabIndicatorHeight | 指示器的高度
 tabMode | 模式
 tabSelectedTextColor | 选中的字体颜色  
 tabTextColor | 未选中的字体颜色
+
 tabMode属性的取值有两个：scrollable 和 fixed 
 
 * scrollable:TabLayout认为TabItem总数宽度大于屏幕宽度，会自动成为水平滚动模式
 * fixed: TabLayout会按TabItem的个数将屏幕平均分割宽度  
 
-##### 有时候我们不需要指示器，我们可以这么做：  
+#### 有时候我们不需要指示器，我们可以这么做：  
 
 1.把指示条高度设为0：
 ```xml
@@ -31,7 +32,7 @@ app:tabIndicatorHeight="0dp"
 ```
 app:tabIndicatorColor="@color/transparent"
 ```
-##### 如果要修改 TabLayout 中的字体大小呢？
+#### 如果要修改 TabLayout 中的字体大小呢？
 TabLayout 中有个属性 tabTextAppearance，这里可以指定一个 style，所以我们定义一个 style:
 ```XML
 <style name="TabLayoutTextStyle">
@@ -49,7 +50,7 @@ tabLayout.getTabAt(0).select();
 ********************************  
 #### 情形一(已知 TabItem 的个数等相关信息)  
 ![](./app/src/main/res/drawable/demo1.gif "")   
-##### XML代码
+#### XML代码
 ```XML
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
@@ -94,7 +95,7 @@ tabLayout.getTabAt(0).select();
         android:layout_height="match_parent"/>
 </LinearLayout>
 ```
-##### MainActivity
+#### MainActivity
 ```JAVA
 public class MainActivity extends AppCompatActivity {
 
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 ```
 #### 情形二(未知 TabItem 的个数等相关信息，动态添加) 
 有时候我们不知道 TabItem 的个数，而是从服务器等其他途径获得，这个时候我们就需要动态来添加了，xml 的代码比较简单：
-##### XML代码
+#### XML代码
 ```XML
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
@@ -159,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         android:layout_height="match_parent"/>
 </LinearLayout>
 ```
-##### MainActivity
+#### MainActivity
 ```JAVA
 public class MainActivity extends AppCompatActivity {
 
@@ -208,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 ```
-然后我们看看实际效果
+然后我们看看实际效果  
 ![](./app/src/main/res/drawable/demo2.gif "")   
 标题呢？我的标题呢？这里就有一个坑了，看看 setupWithViewPager() 的源码怎么回事？
 ```JAVA
@@ -300,8 +301,8 @@ void populateFromPagerAdapter() {
     }
 }
 ```
-方法里的第一行！瞬间脑海中一万只草泥马奔腾而过，why? why? why? 好吧你赢了，看到这里我们应该想到了2种解决办法：
-1.既然我绑定后你全给我 remove掉了，那就先不绑定了，你丑你先 remove 我后绑定还不行吗？
+方法里的第一行！瞬间脑海中一万只草泥马奔腾而过，why? why? why? 好吧你赢了，看到这里我们应该想到了2种解决办法：  
+1.既然我绑定后你全给我 remove掉了，那就先不绑定了，你丑你先 remove 我后绑定还不行吗？  
 2.在它 remove 完之后我们看到它重新添加Tab的时候是通过adapter中的getPageTitle()方法来做的：
 ```JAVA
 addTab(newTab().setText(mPagerAdapter.getPageTitle(i)), false);
@@ -361,10 +362,10 @@ private void init() {
     tabLayout.setupWithViewPager(viewPager);
 }
 ```
-再来看效果：
+再来看效果：  
 ![](./app/src/main/res/drawable/demo3.gif "")   
 OK,完美解决了。
-##### 如果要显示文字+图片等效果呢？
+#### 如果要显示文字+图片等效果呢？
 这个更简单了，同样的两种方法：
 1.系统已经提供了这个API
 ```XML
@@ -380,7 +381,7 @@ tabLayout.addTab(tabLayout.newTab().setText("标题一").setIcon(R.mipmap.ic_lau
 tabLayout.addTab(tabLayout.newTab().setText("标题二").setIcon(R.mipmap.ic_launcher));
 ```
 至于设置的图片的大小...在 android.support.design.widget.TabLayout 的1699行可以debug搞到，设置成48*48的大小了，
-##### 这里还有一个问题，如果还是用的之前的 Adapter 的话会发现之前添加的Tab也在，所以不显示标题的两种解决方案不要同时使用！
+#### 这里还有一个问题，如果还是用的之前的 Adapter 的话会发现之前添加的Tab也在，所以不显示标题的两种解决方案不要同时使用！
 2.自定义TabItem的布局 tab.xml：
 ```XML
 <?xml version="1.0" encoding="utf-8"?>
@@ -427,10 +428,10 @@ private void init() {
     }
 }
 ```
-再看效果
+再看效果  
 ![](./app/src/main/res/drawable/demo4.gif "") 
 OK，自定义布局完全自由，想怎么布局就怎么布局，然而，是不是发现指示器长度有点长？怎么改？比较坑的是系统没有这样的方法！我们能修改吗？答案是肯定的！
-##### 修改指示器的长度及两端间距
+#### 修改指示器的长度及两端间距
 这里有点麻烦，需要用到反射来修改，不多说，直接看方法注释：
 ```JAVA
 public void setIndicator(TabLayout tabs, int leftDip, int rightDip) {
