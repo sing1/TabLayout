@@ -215,57 +215,17 @@ public class MainActivity extends AppCompatActivity {
 ```JAVA
 private void setupWithViewPager(@Nullable final ViewPager viewPager, boolean autoRefresh,
             boolean implicitSetup) {
-        if (mViewPager != null) {
-            // If we've already been setup with a ViewPager, remove us from it
-            if (mPageChangeListener != null) {
-                mViewPager.removeOnPageChangeListener(mPageChangeListener);
-            }
-            if (mAdapterChangeListener != null) {
-                mViewPager.removeOnAdapterChangeListener(mAdapterChangeListener);
-            }
-        }
-
-        if (mCurrentVpSelectedListener != null) {
-            // If we already have a tab selected listener for the ViewPager, remove it
-            removeOnTabSelectedListener(mCurrentVpSelectedListener);
-            mCurrentVpSelectedListener = null;
-        }
-
+        // 省略代码 ...
         if (viewPager != null) {
-            mViewPager = viewPager;
-
-            // Add our custom OnPageChangeListener to the ViewPager
-            if (mPageChangeListener == null) {
-                mPageChangeListener = new TabLayoutOnPageChangeListener(this);
-            }
-            mPageChangeListener.reset();
-            viewPager.addOnPageChangeListener(mPageChangeListener);
-
-            // Now we'll add a tab selected listener to set ViewPager's current item
-            mCurrentVpSelectedListener = new ViewPagerOnTabSelectedListener(viewPager);
-            addOnTabSelectedListener(mCurrentVpSelectedListener);
-
-            final PagerAdapter adapter = viewPager.getAdapter();
+            // 省略代码 ...
             if (adapter != null) {
                 // Now we'll populate ourselves from the pager adapter, adding an observer if
                 // autoRefresh is enabled
                 setPagerAdapter(adapter, autoRefresh);
             }
-
-            // Add a listener so that we're notified of any adapter changes
-            if (mAdapterChangeListener == null) {
-                mAdapterChangeListener = new AdapterChangeListener();
-            }
-            mAdapterChangeListener.setAutoRefresh(autoRefresh);
-            viewPager.addOnAdapterChangeListener(mAdapterChangeListener);
-
-            // Now update the scroll position to match the ViewPager's current item
-            setScrollPosition(viewPager.getCurrentItem(), 0f, true);
+            // 省略代码 ...
         } else {
-            // We've been given a null ViewPager so we need to clear out the internal state,
-            // listeners and observers
-            mViewPager = null;
-            setPagerAdapter(null, false);
+            // 省略代码 ...
         }
 
         mSetupViewPagerImplicitly = implicitSetup;
@@ -429,7 +389,7 @@ private void init() {
 }
 ```
 再看效果  
-![](./app/src/main/res/drawable/demo4.gif "") 
+![](./app/src/main/res/drawable/demo4.gif "")  
 OK，自定义布局完全自由，想怎么布局就怎么布局，然而，是不是发现指示器长度有点长？怎么改？比较坑的是系统没有这样的方法！我们能修改吗？答案是肯定的！
 #### 修改指示器的长度及两端间距
 这里有点麻烦，需要用到反射来修改，不多说，直接看方法注释：
