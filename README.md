@@ -440,4 +440,9 @@ public void setIndicator(TabLayout tabs, int leftDip, int rightDip) {
 ```JAVA
 setIndicator(tabLayout, 10, 10);
 ```
-效果就不贴了，写了一下午了。。。！
+此方法是通过反射获取tablayout私有属性进修改属性值，如果app启动混淆 会报NoSuchFieldException；
+解决方案：在混淆文件中添加：
+```XML
+-keep class Android.support.design.widget.TabLayout{*;}
+```
+效果就不贴了，
