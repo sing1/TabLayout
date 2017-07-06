@@ -429,8 +429,8 @@ public void setIndicator(TabLayout tabs, int leftDip, int rightDip) {
         int width = (int) tv.getPaint().measureText(str);
         // 这里设置宽度，要稍微多一点，否则丑死了！
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width+20, LinearLayout.LayoutParams.MATCH_PARENT);
-        params.leftMargin = left;
-        params.rightMargin = right;
+        // params.leftMargin = left;//莫名的会卡顿
+        // params.rightMargin = right;//莫名的会卡顿
         child.setLayoutParams(params);
         child.invalidate();
     }
