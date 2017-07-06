@@ -454,11 +454,21 @@ public void setIndicator(TabLayout tabs, int leftDip, int rightDip) {
     int left = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, leftDip, Resources.getSystem().getDisplayMetrics());
     int right = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rightDip, Resources.getSystem().getDisplayMetrics());
 
+    // 这里是为了通过 TextView 的 Paint 来测量文字所占的宽度
+    TextView tv = new TextView(this);
+    // 必须设置和tab文字一样的大小，因为不同大小字所占宽度不同
+    tv.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+
     for (int i = 0; i < llTab.getChildCount(); i++) {
         View child = llTab.getChildAt(i);
         child.setPadding(0, 0, 0, 0);
-        // TODO 指示器的长度就在这修改，应该是计算出来的，稍后补充
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT,1);
+
+        // 当前TAB上的文字
+        String str = tabs.getTabAt(i).getText().toString();
+        // 所占的宽度
+        int width = (int) tv.getPaint().measureText(str);
+        // 这里设置宽度，要稍微多一点，否则丑死了！
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width+20, LinearLayout.LayoutParams.MATCH_PARENT);
         params.leftMargin = left;
         params.rightMargin = right;
         child.setLayoutParams(params);
@@ -468,6 +478,6 @@ public void setIndicator(TabLayout tabs, int leftDip, int rightDip) {
 ```
 我们只需要这样调就可以，传入左右两边的间距：
 ```JAVA
-setIndicator(tabLayout, 20, 20);
+setIndicator(tabLayout, 10, 10);
 ```
 效果就不贴了，写了一下午了。。。！
